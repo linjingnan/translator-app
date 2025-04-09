@@ -36,8 +36,11 @@ pipeline {
             steps {
                 dir('translator-app') {
                     sh '''
+                        npm cache clean --force
+                        rm -rf node_modules
                         npm install
-                        npm run build
+                        npm run build 
+                        
                     '''
                 }
             }
