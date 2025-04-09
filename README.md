@@ -79,3 +79,8 @@ Resolve [ticket-number]
 ## Development Team
 
 JR 24 IFA
+
+
+## Devops Team
+
+Frontend CICD Pipeline
