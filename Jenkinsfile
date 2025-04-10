@@ -6,43 +6,24 @@ pipeline {
     }
 
     environment {
-              AWS_DEFAULT_REGION = 'ap-southeast-2'
+        AWS_DEFAULT_REGION = 'ap-southeast-2'
     }
 
     stages {
-        stage('Check and Install Git') {
+        stage('Clean Workspace') {
             steps {
-                script {
-                    def gitExists = sh(script: 'which git', returnStatus: true) == 0
-                    if (!gitExists) {
-                        echo 'Git is not installed. Installing Git...'
-                        sh 'sudo apt-get update && sudo apt-get install -y git'
-                    }
-                    sh '''
-                        git config --global user.name "linjingnan"
-                        git config --global user.email "zengqihang@gmail.com"
-                    '''
-                }
-            }
-        }
-
-        stage('Clone Repository') {
-            steps {
-                git branch: 'dev', url: 'https://github.com/linjingnan/translator-app.git'
+                cleanWs()
             }
         }
 
         stage('Install Project Dependencies and Build') {
             steps {
-                dir('translator-app') {
-                    sh '''
-                        npm cache clean --force
-                        rm -rf node_modules
-                        npm install
-                        npm run build 
-                        
-                    '''
-                }
+                sh '''
+                    npm cache clean --force
+                    rm -rf node_modules
+                    npm install
+                    npm run build 
+                '''
             }
         }
 
@@ -76,11 +57,11 @@ pipeline {
 
         stage('Deploy to S3') {
             steps {
-                dir('/var/lib/jenkins/workspace/ifa-frontend/out') {  
-            sh '''
-                echo "Uploading files from out/ directory to S3..."
-                aws s3 cp . s3://ifa-frontend/ --recursive
-            '''
+                dir('out') {
+                    sh '''
+                        echo "Uploading files from out/ directory to S3..."
+                        aws s3 cp . s3://ifa-frontend/ --recursive
+                    '''
                 }
             }
         }
