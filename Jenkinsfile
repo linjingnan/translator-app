@@ -16,17 +16,22 @@ pipeline {
             }
         }
 
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Install Project Dependencies and Build') {
             steps {
-                    sh '''
+                sh '''
                     npm cache clean --force
                     rm -rf node_modules
                     npm install
                     npm run build 
-                    '''
-                    }
+                '''
+            }
         }
-
 
         stage('Check and Install AWS CLI') {
             steps {
@@ -72,7 +77,5 @@ pipeline {
                 sh 'aws s3 ls s3://ifa-frontend/ --recursive'
             }
         }
-
-        
-    } 
+    }
 }
