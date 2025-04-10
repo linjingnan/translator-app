@@ -17,17 +17,16 @@ pipeline {
         }
 
         stage('Install Project Dependencies and Build') {
-           steps {
-                dir('translator-app') {
+            steps {
                     sh '''
-                     npm cache clean --force
-                     rm -rf node_modules
-                     npm install
-                     npm run build 
+                    npm cache clean --force
+                    rm -rf node_modules
+                    npm install
+                    npm run build 
                     '''
                     }
-                }
-}
+        }
+
 
         stage('Check and Install AWS CLI') {
             steps {
