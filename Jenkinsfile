@@ -9,12 +9,12 @@ pipeline {
         AWS_DEFAULT_REGION = 'ap-southeast-2'
     }
 
-    stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+    // stages {
+    //     stage('Clean Workspace') {
+    //         steps {
+    //             cleanWs()
+    //         }
+    //     }
 
         stage('Install Project Dependencies and Build') {
             steps {
