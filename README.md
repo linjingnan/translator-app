@@ -83,4 +83,4 @@ JR 24 IFA
 
 ## Devops Team
 
-Frontend CICD Pipeline.
+Frontend CICD Pipeline
